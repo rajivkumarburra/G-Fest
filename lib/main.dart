@@ -4,6 +4,7 @@ import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/tabs.dart';
 import 'screens/event_screen.dart';
+import 'screens/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const AuthScreen(),
+      home: const WelcomeScreen(),
       routes: {
         AuthScreen.routeName: (ctx) => const AuthScreen(),
         HomeScreen.routeName: (ctx) => const HomeScreen(),

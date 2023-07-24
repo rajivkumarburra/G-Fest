@@ -17,7 +17,7 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(10),
-      height: MediaQuery.of(context).size.height * 0.125,
+      height: 110,
       width: MediaQuery.of(context).size.width * 0.95,
       decoration: BoxDecoration(
         gradient: const LinearGradient(

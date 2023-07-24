@@ -9,7 +9,7 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: 60,
       width: MediaQuery.of(context).size.width * 0.95,
       padding: const EdgeInsets.only(top: 6, left: 10),
       decoration: BoxDecoration(
