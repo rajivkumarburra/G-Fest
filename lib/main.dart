@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ticket_app/screens/signup_screen.dart';
 
 import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SignupScreen(),
+      home: const AuthScreen(),
       routes: {
         AuthScreen.routeName: (ctx) => const AuthScreen(),
         HomeScreen.routeName: (ctx) => const HomeScreen(),
