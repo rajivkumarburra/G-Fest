@@ -84,7 +84,8 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushReplacementNamed('/tabs');
+                        Navigator.of(context)
+                            .pushReplacementNamed('/auth-screen');
                       },
                       child: Text(
                         'Logout',
