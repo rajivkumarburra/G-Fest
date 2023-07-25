@@ -263,7 +263,9 @@ class _AuthScreenState extends State<AuthScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Don\'t have an account?',
+                              isSignupPage
+                                  ? 'Already have an account?'
+                                  : 'Don\'t have an account?',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontFamily: GoogleFonts.montserrat().fontFamily,
@@ -282,7 +284,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 });
                               },
                               child: Text(
-                                'Sign Up',
+                                isSignupPage ? 'Login' : 'Sign Up',
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: Colors.black,
