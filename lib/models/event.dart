@@ -5,6 +5,7 @@ class Event {
   String imageURL;
   String image2;
   String date;
+  double price;
 
   Event({
     required this.title,
@@ -13,6 +14,7 @@ class Event {
     required this.imageURL,
     required this.image2,
     required this.date,
+    required this.price,
   });
 
   static List<Event> events = [
@@ -26,6 +28,7 @@ class Event {
       image2:
           'https://assets-in.bmscdn.com/discovery-catalog/events/et00347867-ztslhtscbd-landscape.jpg',
       date: '21-10-2022',
+      price: 500,
     ),
     Event(
       title: 'Avengers: Endgame',
@@ -36,6 +39,7 @@ class Event {
           'https://m.media-amazon.com/images/M/MV5BMTc5MDE2ODcwNV5BMl5BanBnXkFtZTgwMzI2NzQ2NzM@._V1_.jpg',
       image2: 'https://static.toiimg.com/photo/68949665.jpeg',
       date: '21-10-2022',
+      price: 500,
     ),
     Event(
       title: 'The Dark Knight',
@@ -47,6 +51,7 @@ class Event {
       image2:
           'https://www.wallpaperflare.com/static/735/898/350/batman-dark-knight-poster-wallpaper.jpg',
       date: '21-10-2022',
+      price: 500,
     ),
     Event(
       title: 'Inception',
@@ -58,6 +63,7 @@ class Event {
       image2:
           'https://rukminim1.flixcart.com/image/850/1000/xif0q/poster/m/k/k/small-spos8308-poster-inception-animated-wall-poster-sl-8308-original-imaghzwanmepwc89.jpeg?q=90',
       date: '21-10-2022',
+      price: 500,
     ),
     Event(
       title: 'Interstellar',
@@ -69,6 +75,7 @@ class Event {
       image2:
           'https://c4.wallpaperflare.com/wallpaper/743/1018/523/interstellar-2014-wallpaper-preview.jpg',
       date: '21-10-2022',
+      price: 500,
     ),
     Event(
       title: 'Tenet',
@@ -79,6 +86,7 @@ class Event {
           'https://m.media-amazon.com/images/M/MV5BMzU3YWYwNTQtZTdiMC00NjY5LTlmMTMtZDFlYTEyODBjMTk5XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg',
       image2: 'https://cdn.mos.cms.futurecdn.net/wJ4s9FFL6FdxAoKixtr4FS.jpg',
       date: '21-10-2022',
+      price: 500,
     ),
   ];
 }

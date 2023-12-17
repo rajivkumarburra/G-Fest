@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,6 +17,59 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   bool isSignupPage = false;
+  String? _email = '';
+  String? _password = '';
+  String _name = '';
+  String _phoneNumber = '';
+
+  bool isNumeric(String str) {
+    if (str.isEmpty) {
+      return false;
+    }
+    return double.tryParse(str) != null;
+  }
+
+  void startAuth() {
+    final isValid = _formKey.currentState!.validate();
+    FocusScope.of(context).unfocus();
+
+    if (isValid) {
+      _formKey.currentState!.save();
+      submitForm(_email.toString(), _password.toString(), _name, _phoneNumber);
+    }
+  }
+
+  void submitForm(
+      String email, String password, String name, String phoneNumber) async {
+    final auth = FirebaseAuth.instance;
+    UserCredential userCredential;
+    try {
+      if (isSignupPage) {
+        userCredential = await auth.createUserWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+        String uid = userCredential.user!.uid;
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .set({'email': email, 'name': name, 'phoneNumber': phoneNumber});
+      } else {
+        userCredential = await auth.signInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      Fluttertoast.showToast(
+        msg: e.message.toString(),
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +157,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                           color: Colors.black, width: 2),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                           color: Colors.black, width: 2),
@@ -108,11 +174,13 @@ class _AuthScreenState extends State<AuthScreen> {
                                     ),
                                   ),
                                   validator: (value) {
-                                    if (value!.isEmpty ||
-                                        !value.contains('@')) {
-                                      return 'Please enter a valid email address.';
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your name.';
                                     }
                                     return null;
+                                  },
+                                  onSaved: (newValue) {
+                                    _name = newValue.toString();
                                   },
                                 ),
                               )
@@ -139,6 +207,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                           color: Colors.black, width: 2),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
+                                    errorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    focusedErrorBorder: OutlineInputBorder(
+                                      borderSide: const BorderSide(
+                                          color: Colors.red, width: 2),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: const BorderSide(
                                           color: Colors.black, width: 2),
@@ -147,10 +225,14 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                   validator: (value) {
                                     if (value!.isEmpty ||
-                                        !value.contains('@')) {
-                                      return 'Please enter a valid email address.';
+                                        !isNumeric(value) ||
+                                        value.length != 10) {
+                                      return 'Please enter a valid phone number.';
                                     }
                                     return null;
+                                  },
+                                  onSaved: (newValue) {
+                                    _phoneNumber = newValue.toString();
                                   },
                                 ),
                               )
@@ -175,6 +257,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                     color: Colors.black, width: 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.black, width: 2),
@@ -186,6 +278,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 return 'Please enter a valid email address.';
                               }
                               return null;
+                            },
+                            onSaved: (newValue) {
+                              _email = newValue;
                             },
                           ),
                         ),
@@ -213,6 +308,16 @@ class _AuthScreenState extends State<AuthScreen> {
                                     color: Colors.black, width: 2),
                                 borderRadius: BorderRadius.circular(10),
                               ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.black, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.red, width: 2),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                               focusedBorder: OutlineInputBorder(
                                 borderSide: const BorderSide(
                                     color: Colors.black, width: 2),
@@ -224,6 +329,9 @@ class _AuthScreenState extends State<AuthScreen> {
                                 return 'Please enter a valid password.';
                               }
                               return null;
+                            },
+                            onSaved: (newValue) {
+                              _password = newValue;
                             },
                           ),
                         ),
@@ -241,8 +349,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               ),
                             ),
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushReplacementNamed('/tabs');
+                              startAuth();
                             },
                             child: Text(
                               isSignupPage ? 'Sign Up' : 'Login',

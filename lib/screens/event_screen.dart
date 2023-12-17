@@ -1,21 +1,51 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../models/event.dart';
 
 class EventScreen extends StatelessWidget {
   const EventScreen({super.key});
 
   static const routeName = '/event-screen';
 
+  void _placeOrder(String title, String price, String date) async {
+    final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
+    String uid = user!.uid;
+    final orderId = Random().nextInt(100000);
+    await FirebaseFirestore.instance
+        .collection('orders')
+        .doc(orderId.toString())
+        .set({
+      'id': orderId.toString(),
+      'title': title,
+      'price': price,
+      'date': date,
+    });
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('orders')
+        .doc(orderId.toString())
+        .set({
+      'id': orderId.toString(),
+      'title': title,
+      'price': price,
+      'date': date,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final event = ModalRoute.of(context)!.settings.arguments as Event;
+    final event =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          event.title,
+          event['title'],
           style: TextStyle(
             fontSize: 20,
             fontFamily: GoogleFonts.montserrat(
@@ -45,7 +75,7 @@ class EventScreen extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(event.image2),
+                    image: NetworkImage(event['image2']),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -57,7 +87,7 @@ class EventScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  event.title,
+                  event['title'],
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 30,
@@ -85,7 +115,7 @@ class EventScreen extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      event.date,
+                      event['date'],
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: GoogleFonts.montserrat(
@@ -114,7 +144,37 @@ class EventScreen extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      event.location,
+                      event['location'],
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: GoogleFonts.montserrat(
+                          fontWeight: FontWeight.bold,
+                        ).fontFamily,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.005,
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 10),
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.currency_rupee,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      double.parse(event['price'].toString())
+                          .toStringAsFixed(2),
                       style: TextStyle(
                         fontSize: 16,
                         fontFamily: GoogleFonts.montserrat(
@@ -133,7 +193,7 @@ class EventScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 child: Text(
-                  event.description,
+                  event['description'],
                   style: TextStyle(
                     fontSize: 18,
                     fontFamily: GoogleFonts.montserrat().fontFamily,
@@ -142,13 +202,26 @@ class EventScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+                height: MediaQuery.of(context).size.height * 0.04,
               ),
+              // Text(
+              //   event.price.toString(),
+              //   style: TextStyle(
+              //     fontSize: 30,
+              //     fontFamily: GoogleFonts.montserrat(
+              //       fontWeight: FontWeight.bold,
+              //     ).fontFamily,
+              //     color: Colors.white,
+              //   ),
+              // ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width * 0.95,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _placeOrder(event['title'].toString(),
+                        event['price'].toString(), event['date'].toString());
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(

@@ -1,10 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:ticket_app/models/orders.dart';
 import 'package:ticket_app/widgets/history_card.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  String uid = "";
+
+  @override
+  void initState() {
+    setState(() {
+      uid = FirebaseAuth.instance.currentUser!.uid;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +86,32 @@ class HistoryScreen extends StatelessWidget {
                     child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.down,
                       color: Colors.black12,
-                      child: ListView.builder(
-                        itemCount: Orders.orders.length,
-                        itemBuilder: (context, index) {
-                          return HistoryCard(
-                            id: Orders.orders[index].id,
-                            title: Orders.orders[index].title,
-                            price: Orders.orders[index].price,
-                            date: Orders.orders[index].date,
+                      child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(uid)
+                            .collection('orders')
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.black,
+                              ),
+                            );
+                          }
+                          final documents = snapshot.data!.docs;
+                          return ListView.builder(
+                            itemCount: documents.length,
+                            itemBuilder: (context, index) {
+                              return HistoryCard(
+                                id: documents[index]['id'],
+                                title: documents[index]['title'],
+                                price: documents[index]['price'],
+                                date: documents[index]['date'],
+                              );
+                            },
                           );
                         },
                       ),

@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../models/event.dart';
 import '../widgets/event_card.dart';
 import './event_screen.dart';
 
@@ -81,20 +81,41 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: GlowingOverscrollIndicator(
                       axisDirection: AxisDirection.right,
                       color: Colors.transparent,
-                      child: PageView.builder(
-                        itemCount: Event.events.length,
-                        itemBuilder: (ctx, index) => GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              EventScreen.routeName,
-                              arguments: Event.events[index],
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection('events')
+                              .snapshots(),
+                          builder: (ctx, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            final documents = snapshot.data!.docs;
+                            return PageView.builder(
+                              itemCount: documents.length,
+                              itemBuilder: (ctx, index) => GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushNamed(
+                                    EventScreen.routeName,
+                                    arguments: {
+                                      'title': documents[index]['title'],
+                                      'description': documents[index]
+                                          ['description'],
+                                      'location': documents[index]['location'],
+                                      'image2': documents[index]['image2'],
+                                      'date': documents[index]['date'],
+                                      'price': documents[index]['price'],
+                                    },
+                                  );
+                                },
+                                child: EventCard(
+                                  imageString: documents[index]['imageURL'],
+                                ),
+                              ),
                             );
-                          },
-                          child: EventCard(
-                            imageString: Event.events[index].imageURL,
-                          ),
-                        ),
-                      ),
+                          }),
                     ),
                   ),
                 ],

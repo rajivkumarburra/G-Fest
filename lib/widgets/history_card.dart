@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class HistoryCard extends StatelessWidget {
   final String title;
-  final double price;
+  final String price;
   final String date;
   final String id;
   const HistoryCard(
