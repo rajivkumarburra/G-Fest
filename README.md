@@ -1,16 +1,19 @@
-# ticket_app
+# G-Fest
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+Welcome to G-Fest, a Flutter app designed to streamline the process of booking passes for college or university festivals. This mobile application provides a user-friendly interface for participants, making the fest experience smoother and more enjoyable.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+1. **Event Discovery:**
+   - Browse through a list of upcoming festivals in your college or university.
+   - View detailed information about each fest, including dates, venue, and featured attractions.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. **Pass Booking:**
+   - Easily book passes for your preferred events within the app.
+   - Choose from different pass types (e.g., single-day, full-event) based on your preferences.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+3. **Payment Integration:**
+   - Securely complete transactions within the app using integrated payment gateways.
+   - Receive instant confirmation of your pass booking.
