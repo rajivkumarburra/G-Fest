@@ -67,69 +67,104 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               child: StreamBuilder(
-                  stream: FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(uid)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    final data = snapshot.data!.data() as Map<String, dynamic>;
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        const Icon(
-                          Icons.account_circle,
-                          size: 100,
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.02,
-                        ),
-                        InfoTile(title: 'Name', info: data['name']),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        InfoTile(title: 'Email', info: data['email']),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.01,
-                        ),
-                        InfoTile(title: 'Phone', info: data['phoneNumber']),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.95,
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
+                stream: FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(uid)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  final data = snapshot.data!.data() as Map<String, dynamic>;
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      const Icon(
+                        Icons.account_circle,
+                        size: 100,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.02,
+                      ),
+                      InfoTile(title: 'Name', info: data['name']),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      InfoTile(title: 'Email', info: data['email']),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      InfoTile(title: 'Phone', info: data['phoneNumber']),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            onPressed: () {
-                              FirebaseAuth.instance.signOut();
-                            },
-                            child: Text(
-                              'Logout',
-                              style: TextStyle(
-                                fontSize: 20,
+                          ),
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut();
+                          },
+                          child: Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: GoogleFonts.montserrat(
                                 fontWeight: FontWeight.bold,
-                                fontFamily: GoogleFonts.montserrat(
-                                  fontWeight: FontWeight.bold,
-                                ).fontFamily,
-                              ),
+                              ).fontFamily,
                             ),
                           ),
                         ),
-                      ],
-                    );
-                  }),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.95,
+                        height: MediaQuery.of(context).size.height * 0.07,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed('/edit-profile', arguments: {
+                              'name': data['name'],
+                              'email': data['email'],
+                              'phoneNumber': data['phoneNumber'],
+                              'uid': uid,
+                            });
+                          },
+                          child: Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.bold,
+                              ).fontFamily,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ],

@@ -97,22 +97,35 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ConnectionState.waiting) {
                             return const Center(
                               child: CircularProgressIndicator(
-                                color: Colors.black,
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.black),
                               ),
                             );
                           }
                           final documents = snapshot.data!.docs;
-                          return ListView.builder(
-                            itemCount: documents.length,
-                            itemBuilder: (context, index) {
-                              return HistoryCard(
-                                id: documents[index]['id'],
-                                title: documents[index]['title'],
-                                price: documents[index]['price'],
-                                date: documents[index]['date'],
-                              );
-                            },
-                          );
+                          return documents.isEmpty
+                              ? Center(
+                                  child: Text(
+                                    'No Orders Yet',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontFamily: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.bold,
+                                      ).fontFamily,
+                                    ),
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: documents.length,
+                                  itemBuilder: (context, index) {
+                                    return HistoryCard(
+                                      id: documents[index]['id'],
+                                      title: documents[index]['title'],
+                                      price: documents[index]['price'],
+                                      date: documents[index]['date'],
+                                    );
+                                  },
+                                );
                         },
                       ),
                     ),

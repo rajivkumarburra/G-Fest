@@ -6,6 +6,7 @@ import 'screens/auth_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/tabs.dart';
 import 'screens/event_screen.dart';
+import 'screens/edit_profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (ctx) => const HomeScreen(),
         TabsScreen.routeName: (ctx) => const TabsScreen(),
         EventScreen.routeName: (ctx) => const EventScreen(),
+        EditProfileScreen.routeName: (ctx) => const EditProfileScreen(),
       },
     );
   }
