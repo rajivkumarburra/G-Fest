@@ -9,7 +9,7 @@ class InfoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: 70,
       width: MediaQuery.of(context).size.width * 0.95,
       padding: const EdgeInsets.only(top: 6, left: 10),
       decoration: BoxDecoration(
@@ -25,6 +25,7 @@ class InfoTile extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
             title,
@@ -32,18 +33,15 @@ class InfoTile extends StatelessWidget {
               fontFamily: GoogleFonts.montserrat(
                 fontWeight: FontWeight.bold,
               ).fontFamily,
-              fontSize: 16,
+              fontSize: 20,
               color: Colors.white,
             ),
-          ),
-          const SizedBox(
-            height: 6,
           ),
           Text(
             info,
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15,
+              fontSize: 16,
               fontFamily: GoogleFonts.montserrat().fontFamily,
             ),
           ),

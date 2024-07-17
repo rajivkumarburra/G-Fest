@@ -184,7 +184,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: TextFormField(
                     initialValue: userData['phoneNumber'],
                     cursorColor: Colors.black,
-                    keyboardType: TextInputType.name,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                       label: Text(
                         'Phone Number',
