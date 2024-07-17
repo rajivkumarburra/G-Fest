@@ -47,6 +47,7 @@ class EventScreen extends StatelessWidget {
         title: Text(
           event['title'],
           style: TextStyle(
+            color: Colors.white,
             fontSize: 20,
             fontFamily: GoogleFonts.montserrat(
               fontWeight: FontWeight.bold,

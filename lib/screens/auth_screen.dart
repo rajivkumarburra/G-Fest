@@ -354,6 +354,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             child: Text(
                               isSignupPage ? 'Sign Up' : 'Login',
                               style: TextStyle(
+                                color: Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: GoogleFonts.montserrat(
@@ -381,7 +382,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             ),
                             TextButton(
                               style: ButtonStyle(
-                                overlayColor: MaterialStateProperty.all<Color>(
+                                overlayColor: WidgetStateProperty.all<Color>(
                                   Colors.black.withOpacity(0.1),
                                 ),
                               ),

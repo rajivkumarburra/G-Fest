@@ -34,6 +34,7 @@ class HistoryCard extends StatelessWidget {
         padding: const EdgeInsets.only(top: 6, left: 8, bottom: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               title,
@@ -45,9 +46,6 @@ class HistoryCard extends StatelessWidget {
                 ).fontFamily,
               ),
             ),
-            const SizedBox(
-              height: 6,
-            ),
             Text(
               'ID: $id',
               style: TextStyle(
@@ -56,9 +54,6 @@ class HistoryCard extends StatelessWidget {
                 fontFamily: GoogleFonts.montserrat().fontFamily,
               ),
             ),
-            const SizedBox(
-              height: 6,
-            ),
             Text(
               'Price: $price',
               style: TextStyle(
@@ -66,9 +61,6 @@ class HistoryCard extends StatelessWidget {
                 fontSize: 15,
                 fontFamily: GoogleFonts.montserrat().fontFamily,
               ),
-            ),
-            const SizedBox(
-              height: 6,
             ),
             Text(
               'Date: $date',

@@ -12,13 +12,13 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final _formKey = GlobalKey<FormState>();
+  String _newEmail = '';
+  String _newName = '';
+  String _newPhone = '';
   @override
   Widget build(BuildContext context) {
     final userData = ModalRoute.of(context)!.settings.arguments as Map;
-    final _formKey = GlobalKey<FormState>();
-    String _newEmail = '';
-    String _newName = '';
-    String _newPhone = '';
 
     bool isNumeric(String str) {
       if (str.isEmpty) {
@@ -245,6 +245,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Text(
                       'Save Changes',
                       style: TextStyle(
+                        color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         fontFamily: GoogleFonts.montserrat(

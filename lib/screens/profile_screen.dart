@@ -17,10 +17,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    setState(() {
-      uid = FirebaseAuth.instance.currentUser!.uid;
-    });
-    super.initState();
+    super.initState(); // Ensure to call super.initState() at the beginning
+    uid = FirebaseAuth.instance.currentUser!.uid;
   }
 
   @override
@@ -118,6 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Text(
                             'Logout',
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               fontFamily: GoogleFonts.montserrat(
@@ -152,6 +151,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Text(
                             'Edit Profile',
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               fontFamily: GoogleFonts.montserrat(
